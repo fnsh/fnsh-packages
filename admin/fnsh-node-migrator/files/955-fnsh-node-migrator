@@ -1,0 +1,81 @@
+#!/usr/bin/lua
+
+local uci = require("simple-uci").cursor()
+local domain_code = uci:get("gluon", "core", "domain")
+local pretty_hostname = require "pretty-hostname"
+local sysconfig = require "gluon.sysconfig"
+
+-- WTF is wrong with you?
+if not domain_code then
+	return
+end
+
+-- Don't migrate on fnsh nodes
+local community = domain_code:sub(1, 4)
+if community == "fnsh" then
+	return
+end
+
+-- Don't migrate these prefixes
+local prefixes = {
+	"64293-sb",
+}
+local hostname = pretty_hostname.get(uci)
+for _, prefix in ipairs(prefixes) do
+	if hostname:sub(1, #prefix) == prefix then
+		return
+	end
+end
+
+-- Check if this is a legacy FRA node
+local fra_domains = {
+	"dom19",
+	"ffda_da_530_ggw2",
+	"ffda_da_530_ggw3",
+	"ffda_da_530_hh36",
+	"dom18",
+	"ffda_da_540_kelley",
+}
+for _, domain in ipairs(fra_domains) do
+	if domain_code == domain then
+		return
+	end
+end
+
+-- Don't migrate these node-ids
+local node_ids = {
+	"00:00:00:00:00:00", -- dummy
+}
+local primary = sysconfig.primary_mac:lower()
+for _, node_id in ipairs(node_ids) do
+	if primary == node_id then
+		return
+	end
+end
+
+-- Don't migrate SSH-Manager nodes
+local ssh_manager = uci:get_bool("ffda-ssh-manager", "settings", "enabled")
+if ssh_manager then
+	return
+end
+
+local pubkeys = {
+	'c8e33aa86b1d3ad894d744d76232fa6325efb63672c3b972bb91f5197e2a96f9', -- hexa-
+	'52b8c8de3985035ffcb0246e537396906357d8d244930947e4bb2c3da370fff7', -- braack
+	'73bea808dd08c77b4c68c80e9ebe10f5690459b77a4ad0e5074a4583e5775cbc', -- andi-
+	'af9a8c08f975d54c9015d015668d3a084e61af43180cbe23def3f79c6e80b32c', -- fluxx
+	'bead63b9e44f5243e3030a37fdc0d1cd3efce65234c7bedfcff6ae6452d42e79', -- tomh
+}
+
+for _, branchname in ipairs({"stable", "beta"}) do
+	uci:set_list("autoupdater", branchname, "pubkey", pubkeys)
+	uci:set_list("autoupdater", branchname, "mirrors", {"http://updates.ffda.io/" .. branchname .. "/sysupgrade"})
+	uci:set("autoupdater", branchname, "good_signatures", "3")
+end
+
+-- Write /lib/gluon/release
+local release_file = io.open("/lib/gluon/release", "w")
+release_file:write("3.1.1\n")
+release_file:close()
+
+uci:save("autoupdater")
