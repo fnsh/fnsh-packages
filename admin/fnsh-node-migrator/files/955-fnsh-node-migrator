@@ -2,7 +2,7 @@
 
 local uci = require("simple-uci").cursor()
 local domain_code = uci:get("gluon", "core", "domain")
-local pretty_hostname = require "pretty-hostname"
+local pretty_hostname = require "pretty_hostname"
 local sysconfig = require "gluon.sysconfig"
 
 -- WTF is wrong with you?
