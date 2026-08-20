@@ -17,7 +17,7 @@ endef
 
 define Package/fnsh-node-migrator/install
 	$(INSTALL_DIR) $(1)/lib/gluon/upgrade
-	$(INSTALL_BIN) ./files/995-fnsh-node-migrator $(1)/lib/gluon/upgrade/
+	$(INSTALL_BIN) ./files/955-fnsh-node-migrator $(1)/lib/gluon/upgrade/
 endef
 
 $(eval $(call BuildPackage,fnsh-node-migrator))
