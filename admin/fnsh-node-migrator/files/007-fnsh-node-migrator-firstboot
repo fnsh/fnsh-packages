@@ -1,0 +1,12 @@
+#!/usr/bin/lua
+
+local sysconfig = require 'gluon.sysconfig'
+local uci = require("simple-uci").cursor()
+
+if sysconfig.primary_mac then
+	os.exit(0)
+end
+
+-- Disable FNSH migration on first boot, as correct assignment can be assumed
+uci:set("gluon", "core", "fnsh_migration_disable", "1")
+uci:save("gluon")

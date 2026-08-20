@@ -17,6 +17,7 @@ endef
 
 define Package/fnsh-node-migrator/install
 	$(INSTALL_DIR) $(1)/lib/gluon/upgrade
+	$(INSTALL_BIN) ./files/007-fnsh-node-migrator-firstboot $(1)/lib/gluon/upgrade/
 	$(INSTALL_BIN) ./files/955-fnsh-node-migrator $(1)/lib/gluon/upgrade/
 endef
 
