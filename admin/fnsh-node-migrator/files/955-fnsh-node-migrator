@@ -10,6 +10,12 @@ if not domain_code then
 	return
 end
 
+-- Allow to manually disable migration
+local disable_migration = uci:get_bool("gluon", "core", "fnsh_migration_disable")
+if disable_migration then
+	return
+end
+
 -- Don't migrate on fnsh nodes
 local community = domain_code:sub(1, 4)
 if community == "fnsh" then
