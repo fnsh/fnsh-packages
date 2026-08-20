@@ -69,7 +69,7 @@ local pubkeys = {
 
 for _, branchname in ipairs({"stable", "beta"}) do
 	uci:set_list("autoupdater", branchname, "pubkey", pubkeys)
-	uci:set_list("autoupdater", branchname, "mirrors", {"http://updates.ffda.io/" .. branchname .. "/sysupgrade"})
+	uci:set_list("autoupdater", branchname, "mirror", {"http://updates.ffda.io/" .. branchname .. "/sysupgrade"})
 	uci:set("autoupdater", branchname, "good_signatures", "3")
 end
 
