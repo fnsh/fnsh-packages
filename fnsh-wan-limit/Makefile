@@ -21,7 +21,7 @@ endef
 define Package/fnsh-wan-limit/install
 	$(INSTALL_DIR) $(1)/lib/gluon/fnsh $(1)/etc/hotplug.d/iface
 
-	$(CP) ./files/wan-limit.uc $(1)/lib/gluon/fnsh/wan-limit.uc
+	$(INSTALL_BIN) ./files/wan-limit.uc $(1)/lib/gluon/fnsh/wan-limit.uc
 	$(CP) ./files/hotplug.sh $(1)/etc/hotplug.d/iface/85-fnsh-wan-limit
 endef
 
