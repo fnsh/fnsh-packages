@@ -87,6 +87,11 @@ function delete_ifb(iface) {
 let config = read_config();
 let wan_ifname = get_wan_interface();
 
+if (wan_ifname == null) {
+	print("Could not determine WAN interface\n");
+	exit(1);
+}
+
 if (config == null || !config.enabled) {
 	delete_ifb(wan_ifname);
 	remove_shaper(wan_ifname);
