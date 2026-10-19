@@ -19,10 +19,11 @@ define Build/Compile
 endef
 
 define Package/fnsh-beacon-report-collector/install
-	$(INSTALL_DIR) $(1)/usr/share/ucode/fnsh/wifi $(1)/usr/bin $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/usr/share/ucode/fnsh/wifi $(1)/usr/bin $(1)/etc/config $(1)/etc/init.d
 
 	$(INSTALL_BIN) ./files/beacon-report-collector.uc $(1)/usr/bin/beacon-report-collector
 	$(INSTALL_BIN) ./files/beacon-report-collector.init $(1)/etc/init.d/beacon-report-collector
+	$(CP) ./files/beacon-report-collector.uci $(1)/etc/config/beacon-report-collector
 	$(CP) ./files/lib/beacon-report.uc $(1)/usr/share/ucode/fnsh/wifi/beacon-report.uc
 endef
 

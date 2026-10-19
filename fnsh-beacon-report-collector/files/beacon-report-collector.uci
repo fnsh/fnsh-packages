@@ -1,0 +1,2 @@
+config beacon-report-collector config
+	option enabled '0'
