@@ -21,6 +21,7 @@ endef
 define Package/fnsh-ucode-wifi-lib/install
 	$(INSTALL_DIR) $(1)/usr/share/ucode/fnsh/wifi
 
+	$(CP) ./files/beacon.uc $(1)/usr/share/ucode/fnsh/wifi/beacon.uc
 	$(CP) ./files/data.uc $(1)/usr/share/ucode/fnsh/wifi/data.uc
 	$(CP) ./files/tlv.uc $(1)/usr/share/ucode/fnsh/wifi/tlv.uc
 endef
