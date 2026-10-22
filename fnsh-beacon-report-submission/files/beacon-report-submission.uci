@@ -1,0 +1,2 @@
+config beacon-report-submission config
+	option enabled '0'
