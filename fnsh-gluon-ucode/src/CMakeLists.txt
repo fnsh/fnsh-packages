@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-PROJECT(utils C)
+PROJECT(gluon-ucode C)
 INCLUDE(GNUInstallDirs)
 ADD_DEFINITIONS(-Os -Wall -Werror --std=gnu99)
 
